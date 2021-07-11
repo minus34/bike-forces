@@ -8,10 +8,11 @@ CREATE TABLE IF NOT EXISTS testing.bike_forces
     raw_x double precision,
     raw_y double precision,
     raw_z double precision,
+    total_raw_accel double precision,
     seconds double precision,
-    lat_accel double precision,
-    long_accel double precision,
-    vert_accel double precision,
+    x double precision,
+    y double precision,
+    z double precision,
     total_accel double precision,
     total_force double precision
 );
@@ -44,3 +45,8 @@ FROM '/Users/hugh.saalmans/git/minus34/bike-forces/data/acceleration - bottom.tx
 UPDATE testing.bike_forces SET test_name = 'bottom' WHERE test_name IS NULL;
 
 ANALYZE testing.bike_forces;
+
+-- add total acceleration
+UPDATE testing.bike_forces
+    SET total_raw_accel = sqrt(power(raw_x, 2) + power(raw_y, 2) + power(raw_z, 2))
+;
