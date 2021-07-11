@@ -17,13 +17,16 @@ group by test_name
 SELECT * FROM testing.bike_forces;
 
 
--- get raw accel values in the first second to remove gravity
+-- get raw accel values in the first half second and use as a baseline to approximately remove gravity
 select test_name,
        avg(raw_x) as avg_x,
+       stddev(raw_x) as std_dev_x,
        avg(raw_y) as avg_y,
-       avg(raw_z) as avg_z
+       stddev(raw_y) as std_dev_y,
+       avg(raw_z) as avg_z,
+       stddev(raw_z) as std_dev_z
 from testing.bike_forces
-where index < 30
+where index < 15
 group by test_name
 ;
 
