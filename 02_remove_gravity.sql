@@ -26,3 +26,30 @@ where bike.test_name = raw.test_name
 UPDATE testing.bike_forces
     SET total_accel = sqrt(power(x, 2) + power(y, 2) + power(z, 2))
 ;
+
+-- add force -- test subject has a mass of 60.5 kg
+update testing.bike_forces
+    set total_force = total_accel * 60.5
+;
+
+-- export to CSV
+COPY testing.bike_forces
+TO '/Users/hugh.saalmans/git/minus34/bike-forces/data/processed acceleration data.txt' CSV HEADER DELIMITER ',';
+
+
+
+
+-- testing
+select test_name,
+       avg(raw_x) as avg_raw_x,
+       avg(raw_y) as avg_raw_y,
+       avg(raw_z) as avg_raw_z,
+       avg(x) as avg_x,
+       avg(y) as avg_y,
+       avg(z) as avg_z
+from testing.bike_forces
+where index < 360
+group by test_name
+
+
+

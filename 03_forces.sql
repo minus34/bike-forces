@@ -1,8 +1,4 @@
 
--- add force -- test subject has a mass of 60.5 kg
-update testing.bike_forces
-    set total_force = total_accel * 60.5
-;
 
 
 -- average and total forces
