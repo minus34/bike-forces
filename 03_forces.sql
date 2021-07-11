@@ -4,6 +4,7 @@
 -- average and total forces
 select test_name,
        avg(total_force) as avg_force,
+       stddev_pop(total_force) as std_dev_force,
        sum(total_force) as sum_force
 from testing.bike_forces
 group by test_name

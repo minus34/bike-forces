@@ -5,6 +5,11 @@ delete from testing.bike_forces where test_name = 'head' and index > 9938;
 delete from testing.bike_forces where test_name = 'forearm' and index > 9770;
 delete from testing.bike_forces where test_name = 'bottom' and index > 9414;
 
+-- convert indexes to times (adjusted for differences in bike riding speed)
+update testing.bike_forces set seconds = index::float / 30.0 where test_name = 'bike';
+update testing.bike_forces set seconds = index::float / 28.6 where test_name = 'head';
+update testing.bike_forces set seconds = index::float / 28.1 where test_name = 'forearm';
+update testing.bike_forces set seconds = index::float / 27.1 where test_name = 'bottom';
 
 -- get raw accel values in the first half second and use as a baseline to approximately remove gravity
 with raw as (
