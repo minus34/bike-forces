@@ -11,11 +11,13 @@ CREATE TABLE IF NOT EXISTS testing.bike_forces
     seconds double precision,
     lat_accel double precision,
     long_accel double precision,
-    vert_accel double precision
+    vert_accel double precision,
+    total_accel double precision,
+    total_force double precision
 );
 
 
--- import recorded accelerometer data
+-- import recorded accelerometer data -- units are G's (9.81 m/s2)
 
 -- load the bike values
 COPY testing.bike_forces (index, raw_x, raw_y, raw_z)
