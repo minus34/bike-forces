@@ -1,4 +1,11 @@
 
+-- clean bad readings (at the ends where phone was moved
+delete from testing.bike_forces where test_name = 'bike' and index > 10420;
+delete from testing.bike_forces where test_name = 'head' and index > 9938;
+delete from testing.bike_forces where test_name = 'forearm' and index > 9770;
+delete from testing.bike_forces where test_name = 'bottom' and index > 9414;
+
+
 -- get raw accel values in the first half second and use as a baseline to approximately remove gravity
 with raw as (
 select test_name,
@@ -11,7 +18,7 @@ select test_name,
        avg(raw_z) as avg_z,
        stddev(raw_z) as std_dev_z
 from testing.bike_forces
-where index < 15
+where not (raw_x > 1.0 and raw_y > 1.0 and raw_z > 1.0)
 group by test_name
 )
 update testing.bike_forces as bike
@@ -39,6 +46,7 @@ TO '/Users/hugh.saalmans/git/minus34/bike-forces/data/processed acceleration dat
 
 
 
+
 -- testing
 select test_name,
        avg(raw_x) as avg_raw_x,
@@ -48,7 +56,8 @@ select test_name,
        avg(y) as avg_y,
        avg(z) as avg_z
 from testing.bike_forces
-where index < 360
+where index > 3000
+and index < 4000
 group by test_name
 
 
