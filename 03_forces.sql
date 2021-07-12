@@ -5,8 +5,10 @@
 select test_name,
        avg(total_force) as avg_force,
        stddev_pop(total_force) as std_dev_force,
-       sum(total_force) as sum_force
+       sum(total_force) as sum_force,
+       avg(total_force) * 350.0 as fred
 from testing.bike_forces
+where test_name <> 'bike'
 group by test_name
 ;
 
