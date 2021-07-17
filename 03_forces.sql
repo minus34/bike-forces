@@ -1,17 +1,18 @@
 
 
 
--- average and total forces
+
+-- average and total forces (value don't include gravity)
 select test_name,
-       avg(total_accel) as avg_total_accel,
-       avg(total_force) as avg_total_force,
-       max(total_accel) as max_total_accel,
-       max(total_force) as max_total_force,
-       sum(case when total_accel > 1.0 then 1 else 0 end) as over_1g_count,
-       sum(case when total_accel > 2.0 then 1 else 0 end) as over_2g_count,
-       sum(case when total_accel > 3.0 then 1 else 0 end) as over_3g_count,
-       sum(case when total_accel > 4.0 then 1 else 0 end) as over_4g_count,
-       sum(case when total_accel > 5.0 then 1 else 0 end) as over_5g_count
+       avg(total_accel)::numeric(5,1) as avg_3D_accel_g,
+       avg(total_force)::numeric(5,1) as avg_3D_force_N,
+       max(total_accel)::numeric(5,1) as max_3D_accel_g,
+       max(total_force)::numeric(5,1) as max_3D_force_N,
+       (sum(case when total_accel > 1.0 then 1 else 0 end)::float / 30.0)::numeric(5,1) as seconds_over_1g,
+       (sum(case when total_accel > 2.0 then 1 else 0 end)::float / 30.0)::numeric(5,1) as seconds_over_2g,
+       (sum(case when total_accel > 3.0 then 1 else 0 end)::float / 30.0)::numeric(5,1) as seconds_over_3g,
+       (sum(case when total_accel > 4.0 then 1 else 0 end)::float / 30.0)::numeric(5,1) as seconds_over_4g,
+       (sum(case when total_accel > 5.0 then 1 else 0 end)::float / 30.0)::numeric(5,1) as seconds_over_5g
 from testing.bike_forces
 where test_name <> 'bike'
 group by test_name
