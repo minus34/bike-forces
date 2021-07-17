@@ -2,7 +2,7 @@
 
 
 
--- average and total forces (value don't include gravity)
+-- average and total forces (values don't include gravity)
 select test_name,
        avg(total_accel)::numeric(5,1) as avg_3D_accel_g,
        avg(total_force)::numeric(5,1) as avg_3D_force_N,
